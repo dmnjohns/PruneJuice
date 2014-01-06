@@ -17,12 +17,12 @@ saved = reddit.user.get_saved(limit=None)
 
 print 'Checking submissions for dead links...'\
 for sub in saved:
-    timedout = False
     try:
         resp = urllib.urlopen(sub.url)
     except IOError:
-        timedout = True
-    if timedout or resp.getcode() in INVALID_CODES:
+        """ TODO: verify dead/retry """
+        continue
+    if resp.getcode() in INVALID_CODES:
         sub.unsave()
         print 'Unsaving \"' + sub.title + '\"...'
 
