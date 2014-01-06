@@ -1,6 +1,8 @@
 import praw
 import urllib
 
+INVALID_CODES = [404, 410]
+
 user = raw_input('Username: ')
 passwd = raw_input('Password: ')
 
@@ -20,7 +22,7 @@ for sub in saved:
         resp = urllib.urlopen(sub.url)
     except IOError:
         timedout = True
-    if resp.getcode() == 404 or timedout:
+    if timedout or resp.getcode() in INVALID_CODES:
         sub.unsave()
         print 'Unsaving \"' + sub.title + '\"...'
 
