@@ -15,7 +15,7 @@ reddit.login(user, passwd)
 print 'Fetching saved submissions...'
 saved = reddit.user.get_saved(limit=None)
 
-print 'Checking submissions for dead links...'\
+print 'Checking submissions for dead links...'
 for sub in saved:
     try:
         resp = urllib.urlopen(sub.url)
