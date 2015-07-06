@@ -22,7 +22,7 @@ for sub in saved:
     try:
         resp = urllib.urlopen(sub.url)
         if 400 <= resp.getcode() < 500:
-            print 'Unsaving \"' + sub.title + '\" for dead link...'
+            print 'Unsaving \"{0}\" for dead link...'.format(sub.title)
             sub.unsave()
             dead_links += 1
             continue
@@ -31,13 +31,14 @@ for sub in saved:
         print 'Unable to resolve submission status...'
 
     """ Remove duplicate author links """
-    if sub.author.name in author_set:
-        print 'Unsaving \"' + sub.title + '\" for duplicate author...'
-        sub.unsave()
-        duplicate_author_links += 1
-        continue
-    else:
-        author_set.add(sub.author.name)
+    if sub.author is not None:
+        if sub.author.name in author_set:
+            print 'Unsaving \"{0}\" for duplicate author \"{1}\"...'.format(sub.title, sub.author.name)
+            sub.unsave()
+            duplicate_author_links += 1
+            continue
+        else:
+            author_set.add(sub.author.name)
 
 print 'Done.'
 print
